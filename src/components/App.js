@@ -12,6 +12,11 @@ class App extends React.Component {
         super(props);
         this.state = {videos: [], selectedVideo: null};
     }
+
+    componentDidMount() {
+        this.handleTermSubmit('baseball');
+    }
+
     handleTermSubmit = async term => {
         const response = await youtube.get( './search', {
             params: {
@@ -22,7 +27,7 @@ class App extends React.Component {
                 key: KEY
             }
         });
-        this.setState({videos: response.data.items});
+        this.setState({videos: response.data.items, selectedVideo: response.data.items[0]});
     };
 
     onVideoSelect = video => {
@@ -39,7 +44,7 @@ class App extends React.Component {
                         <div className="eleven wide column">
                             <VideoDetail video={this.state.selectedVideo}/>
                         </div>
-                        <div className="three wide column">
+                        <div className="five wide column">
                             <VideoList onVideoSelect={this.onVideoSelect} videos={this.state.videos}/>
                         </div>
                     </div>
